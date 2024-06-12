@@ -12,6 +12,7 @@ struct WeatherResponse: Codable {
     let description : String
     let days: [Days]
     let currentConditions : CurrentConditions
+    //let icon: String
 }
 struct Days: Codable{
     let datetime: String

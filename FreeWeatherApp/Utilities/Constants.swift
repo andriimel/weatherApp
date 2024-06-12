@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FWConstants {
+enum FWKeys {
     
-    
+   static let isLocationDetected = "locationIsDetected"
 }

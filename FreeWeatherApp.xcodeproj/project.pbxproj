@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		595DAE1C2C028FC900C84F83 /* FWSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595DAE1B2C028FC900C84F83 /* FWSearchView.swift */; };
 		595EB2032BD70A8000486583 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2022BD70A8000486583 /* AppDelegate.swift */; };
 		595EB2052BD70A8000486583 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2042BD70A8000486583 /* SceneDelegate.swift */; };
 		595EB20A2BD70A8000486583 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 595EB2092BD70A8000486583 /* Base */; };
-		595EB20D2BD70A8000486583 /* FreeWeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 595EB20B2BD70A8000486583 /* FreeWeatherApp.xcdatamodeld */; };
 		595EB20F2BD70A8100486583 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 595EB20E2BD70A8100486583 /* Assets.xcassets */; };
 		595EB2122BD70A8100486583 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 595EB2112BD70A8100486583 /* Base */; };
 		595EB22C2BD70B1900486583 /* FWErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB21B2BD70B1900486583 /* FWErrorType.swift */; };
 		595EB22D2BD70B1900486583 /* FWWeatherVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB21D2BD70B1900486583 /* FWWeatherVC.swift */; };
-		595EB22E2BD70B1900486583 /* FWSettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB21F2BD70B1900486583 /* FWSettingsButton.swift */; };
+		595EB22E2BD70B1900486583 /* FWAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB21F2BD70B1900486583 /* FWAddButton.swift */; };
 		595EB22F2BD70B1900486583 /* FWSharedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2202BD70B1900486583 /* FWSharedButton.swift */; };
 		595EB2302BD70B1900486583 /* FWDescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2222BD70B1900486583 /* FWDescriptionLabel.swift */; };
 		595EB2312BD70B1900486583 /* FWLocationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2232BD70B1900486583 /* FWLocationLabel.swift */; };
@@ -26,7 +26,9 @@
 		5966BD1C2BE3162B0013E75B /* FWCustomSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD1B2BE3162B0013E75B /* FWCustomSettingsView.swift */; };
 		5966BD1E2BE3D7140013E75B /* FWSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD1D2BE3D7140013E75B /* FWSettingsCell.swift */; };
 		5966BD202BE457A20013E75B /* FWSettingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD1F2BE457A20013E75B /* FWSettingData.swift */; };
-		5966BD222BEDA6340013E75B /* FWSettingsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD212BEDA6340013E75B /* FWSettingsCustomCell.swift */; };
+		5966BD222BEDA6340013E75B /* FWSearchingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD212BEDA6340013E75B /* FWSearchingCell.swift */; };
+		5966BD262BF3A5D90013E75B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD252BF3A5D90013E75B /* Constants.swift */; };
+		5966BD282BFA5EE80013E75B /* FreeWeatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 595EB20B2BD70A8000486583 /* FreeWeatherApp.xcdatamodeld */; };
 		59E36D542BD811CD0026AFCE /* FWCurrentWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E36D532BD811CD0026AFCE /* FWCurrentWeatherCell.swift */; };
 		59E36D572BD85F490026AFCE /* FWWeatherImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E36D562BD85F480026AFCE /* FWWeatherImageView.swift */; };
 		59E36D5A2BD864820026AFCE /* FWTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E36D592BD864820026AFCE /* FWTabBarController.swift */; };
@@ -38,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		595DAE1B2C028FC900C84F83 /* FWSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSearchView.swift; sourceTree = "<group>"; };
 		595EB1FF2BD70A8000486583 /* FreeWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		595EB2022BD70A8000486583 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		595EB2042BD70A8000486583 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -48,7 +51,7 @@
 		595EB2132BD70A8100486583 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		595EB21B2BD70B1900486583 /* FWErrorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWErrorType.swift; sourceTree = "<group>"; };
 		595EB21D2BD70B1900486583 /* FWWeatherVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWWeatherVC.swift; sourceTree = "<group>"; };
-		595EB21F2BD70B1900486583 /* FWSettingsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWSettingsButton.swift; sourceTree = "<group>"; };
+		595EB21F2BD70B1900486583 /* FWAddButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWAddButton.swift; sourceTree = "<group>"; };
 		595EB2202BD70B1900486583 /* FWSharedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWSharedButton.swift; sourceTree = "<group>"; };
 		595EB2222BD70B1900486583 /* FWDescriptionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWDescriptionLabel.swift; sourceTree = "<group>"; };
 		595EB2232BD70B1900486583 /* FWLocationLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FWLocationLabel.swift; sourceTree = "<group>"; };
@@ -59,7 +62,8 @@
 		5966BD1B2BE3162B0013E75B /* FWCustomSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWCustomSettingsView.swift; sourceTree = "<group>"; };
 		5966BD1D2BE3D7140013E75B /* FWSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSettingsCell.swift; sourceTree = "<group>"; };
 		5966BD1F2BE457A20013E75B /* FWSettingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSettingData.swift; sourceTree = "<group>"; };
-		5966BD212BEDA6340013E75B /* FWSettingsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSettingsCustomCell.swift; sourceTree = "<group>"; };
+		5966BD212BEDA6340013E75B /* FWSearchingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSearchingCell.swift; sourceTree = "<group>"; };
+		5966BD252BF3A5D90013E75B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		59E36D532BD811CD0026AFCE /* FWCurrentWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWCurrentWeatherCell.swift; sourceTree = "<group>"; };
 		59E36D562BD85F480026AFCE /* FWWeatherImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWWeatherImageView.swift; sourceTree = "<group>"; };
 		59E36D592BD864820026AFCE /* FWTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWTabBarController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				595EB21B2BD70B1900486583 /* FWErrorType.swift */,
+				5966BD252BF3A5D90013E75B /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -135,7 +140,7 @@
 		595EB2212BD70B1900486583 /* FWButtons */ = {
 			isa = PBXGroup;
 			children = (
-				595EB21F2BD70B1900486583 /* FWSettingsButton.swift */,
+				595EB21F2BD70B1900486583 /* FWAddButton.swift */,
 				595EB2202BD70B1900486583 /* FWSharedButton.swift */,
 			);
 			path = FWButtons;
@@ -197,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				5966BD1B2BE3162B0013E75B /* FWCustomSettingsView.swift */,
+				595DAE1B2C028FC900C84F83 /* FWSearchView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -208,7 +214,7 @@
 				59E36D5D2BD952180026AFCE /* FWHourlyWeatherCell.swift */,
 				59E36D5F2BD9524F0026AFCE /* FWDailyWeatherCell.swift */,
 				5966BD1D2BE3D7140013E75B /* FWSettingsCell.swift */,
-				5966BD212BEDA6340013E75B /* FWSettingsCustomCell.swift */,
+				5966BD212BEDA6340013E75B /* FWSearchingCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -308,20 +314,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5966BD222BEDA6340013E75B /* FWSettingsCustomCell.swift in Sources */,
+				5966BD222BEDA6340013E75B /* FWSearchingCell.swift in Sources */,
 				595EB2332BD70B1900486583 /* FWNetworkManager.swift in Sources */,
 				5966BD1C2BE3162B0013E75B /* FWCustomSettingsView.swift in Sources */,
 				595EB22D2BD70B1900486583 /* FWWeatherVC.swift in Sources */,
 				5966BD192BE17ECB0013E75B /* FWSettingsVC.swift in Sources */,
 				59E36D632BD9533D0026AFCE /* CurrentWeatherSection.swift in Sources */,
 				595EB2032BD70A8000486583 /* AppDelegate.swift in Sources */,
-				595EB22E2BD70B1900486583 /* FWSettingsButton.swift in Sources */,
+				595EB22E2BD70B1900486583 /* FWAddButton.swift in Sources */,
 				59E36D5C2BD865820026AFCE /* FWSearchVC.swift in Sources */,
 				5966BD1E2BE3D7140013E75B /* FWSettingsCell.swift in Sources */,
 				59E36D572BD85F490026AFCE /* FWWeatherImageView.swift in Sources */,
 				595EB22C2BD70B1900486583 /* FWErrorType.swift in Sources */,
-				595EB20D2BD70A8000486583 /* FreeWeatherApp.xcdatamodeld in Sources */,
 				595EB2312BD70B1900486583 /* FWLocationLabel.swift in Sources */,
+				595DAE1C2C028FC900C84F83 /* FWSearchView.swift in Sources */,
+				5966BD282BFA5EE80013E75B /* FreeWeatherApp.xcdatamodeld in Sources */,
 				59E36D5E2BD952180026AFCE /* FWHourlyWeatherCell.swift in Sources */,
 				595EB2322BD70B1900486583 /* FWTempLabel.swift in Sources */,
 				59E36D672BDEBFC30026AFCE /* FWLocationManager.swift in Sources */,
@@ -333,6 +340,7 @@
 				595EB22F2BD70B1900486583 /* FWSharedButton.swift in Sources */,
 				595EB2342BD70B1900486583 /* WeatherData.swift in Sources */,
 				5966BD202BE457A20013E75B /* FWSettingData.swift in Sources */,
+				5966BD262BF3A5D90013E75B /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,7 +20,7 @@ class FWCustomSettingsView: UIView {
 
         let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Settings.plist")
 
-    var settingsList :[FWSettingData] = [FWSettingData(unitName: "US, °F, miles", check: false),FWSettingData(unitName: "Metric, °C, km", check: false),FWSettingData(unitName: "UK, °C, miles", check: false)]
+    var settingsList :[FWSettingData] = [FWSettingData(unitName: "US, °F, miles", check: true),FWSettingData(unitName: "Metric, °C, km", check: false),FWSettingData(unitName: "UK, °C, miles", check: false)]
     
     override init(frame: CGRect) {
         super.init(frame: frame)

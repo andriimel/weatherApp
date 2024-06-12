@@ -26,6 +26,7 @@ class FWLocationLabel: UILabel {
     
     func configure() {
         backgroundColor = .clear
+        numberOfLines = 0
         textAlignment = .center
         font = .systemFont(ofSize: 20)
         translatesAutoresizingMaskIntoConstraints = false

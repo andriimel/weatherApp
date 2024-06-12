@@ -21,12 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = winScene
         window?.rootViewController = FWTabBarController()
         window?.makeKeyAndVisible()
-//        configureNavigationBar()
+        
+        configureNavigationBar()
     }
     
-//    func configureNavigationBar() {
-//        UINavigationBar.appearance().tintColor = .systemGreen
-//    }
+    func configureNavigationBar() {
+        UINavigationBar.appearance().tintColor = .systemGreen
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

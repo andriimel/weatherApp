@@ -7,51 +7,84 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 import MapKit
 
+protocol FWWeatherDelegate : AnyObject {
+    func getWeatherToSelectedLocations(with selectedLocation: WeatherResponse )
+}
 
-
-class FWWeatherVC: UIViewController {
+class FWWeatherVC: UIViewController, UINavigationControllerDelegate {
     
+ 
+    weak var delegate : FWWeatherDelegate?
     
     let defaults = UserDefaults.standard
-    
+    var isLocationDetected = false
+
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Settings.plist")
+    
+    var selectedLocation = ""
+    var myLocation = ""
+    var settingUnit = ""
     
     var collectionView: UICollectionView!
     
+    var addButton = FWAddButton(frame: .zero)
     var settingView = FWCustomSettingsView(frame: .zero)
-    var currentLocation:[ WeatherResponse ] = []
+    var currentLocation: [WeatherResponse] = []
     var days : [Days] = []
     var hoursDataWeather : [Hours] = []
     
-    var settingUnit = ""
-    var settingsList :[FWSettingData] = []
     
+    
+    var settingsList :[FWSettingData] = []
+    var locationManager = LocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        reloadData()
-        configureWeatherVC()
-        configureCollectionView()
-        configureSettingView()
-        getMyLocationWeather()
-        setMetricValue()
-        print("Weather in: ",settingUnit)
+        isLocationDetected = defaults.bool(forKey: FWKeys.isLocationDetected)
+        
+        print("location detected ? - ", isLocationDetected)
+        
+        if !isLocationDetected {
+           
+            getMyCurrentLocation()
+            isLocationDetected = true
+            defaults.set(true, forKey: FWKeys.isLocationDetected)
+        } else if isLocationDetected {
+            setSelectedLocation()
+            setWeatherForSelectedLocation()
+        }
+            
+            configureTabBarButtons()
+            configureCollectionView()
+            configureSettingView()
+            configureAddButton()
+            reloadData()
+        
     }
     
     func setMetricValue() {
-        settingUnit = defaults.string(forKey: "SettingsValue") ?? "metric"
+        settingUnit = defaults.string(forKey: "SettingsValue") ?? "us"
         settingView.delegate = self
+    }
+    func setSelectedLocation () {
+        selectedLocation =  defaults.string(forKey: "SelectedLocation") ?? myLocation
+    }
+    func setWeatherForSelectedLocation() {
+        let searchVC = FWSearchVC()
+        searchVC.delegate = self
+        searchVC.setData()
     }
     
     func loadData() {
-        
         if let data = try? Data(contentsOf: dataFilePath!) {
             let decoder = PropertyListDecoder()
             do {
@@ -62,44 +95,30 @@ class FWWeatherVC: UIViewController {
         }
     }
     
-    func getMyLocationWeather() {
+    func getLocationWeather( with location: String) {
         
         loadData()
         
-        LocationManager.shared.getCurrentLocation { location in
-            
-            let geocoder = CLGeocoder()
-            geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
-                if (error != nil){
-                    print("error in reverseGeocode")
+        setMetricValue()
+        
+        FWNetworkManager().getApiData(with: location, with: self.settingUnit ) { [weak self] result in
+            guard let self = self else {return}
+            switch result {
+                
+            case .success(let days ):
+                
+                self.currentLocation.append(days)
+                self.days.append(contentsOf: days.days)
+                
+                getHoursData(day: days.days[0])
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
                 }
-                guard let placemarks = placemarks else {return}
-                let placemark = placemarks as [CLPlacemark]
-                if placemark.count>0{
-                    
-                    let placemark = placemarks[0]
-                    
-                    FWNetworkManager().getApiData(with: placemark.subLocality!, with: self.settingUnit ) { [weak self] result in
-                        guard let self = self else {return}
-                        switch result {
-                            
-                        case .success(let days ):
-                            
-                            self.currentLocation.append(days)
-                            self.days.append(contentsOf: days.days)
-                            
-                            getHoursData(day: days.days[0])
-                            DispatchQueue.main.async {
-                                self.collectionView.reloadData()
-                            }
-                        case .failure( _ ):
-                            print("Error")
-                        }
-                    }
-                }
+                
+            case .failure( _ ):
+                print("Error")
             }
         }
-        
     }
     
     func getHoursData(day: Days) {
@@ -107,7 +126,8 @@ class FWWeatherVC: UIViewController {
         hoursDataWeather.append(contentsOf: day.hours)
         
     }
-    func configureWeatherVC() {
+    
+    func configureTabBarButtons() {
         
         let settingsButton = UIBarButtonItem(title: nil, image: UIImage(systemName: "gearshape"), target: self, action: #selector(settingsButtonTapped))
         navigationItem.rightBarButtonItem = settingsButton
@@ -121,21 +141,27 @@ class FWWeatherVC: UIViewController {
         settingView.isHidden = !settingView.isHidden
     }
     
+    // MARK: -  Get my current location
     @objc func locationButtonTapped() {
         print("Location button tapped !!!! ")
-
         reloadData()
-        getMyLocationWeather()
-        
+        getMyCurrentLocation()
     }
     
+    func getMyCurrentLocation(){
+        
+        locationManager.getCurrentLocation()
+        locationManager.delegate = self
+        
+    }
     func reloadData() {
+       
         currentLocation.removeAll()
         days.removeAll()
         hoursDataWeather.removeAll()
         
-        // getMyLocationWeather()
     }
+    
     func configureCollectionView() {
         let layout = UICollectionViewCompositionalLayout {sectionIndex, _ in
             return self.layout(for: sectionIndex)
@@ -151,19 +177,18 @@ class FWWeatherVC: UIViewController {
         
         
         view.addSubview(collectionView)
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-
     }
     
     func configureSettingView() {
+        
         view.addSubview(settingView)
-        
-        
         settingView.isHidden = true
         
         NSLayoutConstraint.activate([
@@ -171,10 +196,44 @@ class FWWeatherVC: UIViewController {
             settingView.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),
             settingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             settingView.heightAnchor.constraint(equalToConstant: 180)
-            
         ])
     }
     
+    // MARK: - Set Add Button
+    
+    func configureAddButton() {
+        
+        let padding = 10.0
+        self.view.addSubview(addButton)
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            addButton.topAnchor.constraint(equalTo: view.topAnchor, constant: padding),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            addButton.widthAnchor.constraint(equalToConstant: 50),
+            addButton.heightAnchor.constraint(equalToConstant: 20)
+        ])
+    }
+    
+    @objc func addButtonTapped() {
+        print("add button tapped !!!! ")
+        let searchVC = FWSearchVC()
+        self.delegate = searchVC
+      
+        let destVC = FWTabBarController()
+        destVC.selectedIndex = 1
+     
+        self.delegate?.getWeatherToSelectedLocations(with: currentLocation[0])
+        
+   
+        destVC.modalPresentationStyle = .fullScreen
+        present(destVC, animated: true)
+
+    }
+    
+
+
+    // MARK: - Layout methods for UICollection View
     private func layout(for sectionIndex: Int) -> NSCollectionLayoutSection {
         let section = CurrentWeatherSection.allCases[sectionIndex]
         
@@ -223,8 +282,9 @@ class FWWeatherVC: UIViewController {
             return NSCollectionLayoutSection(group: group)
         }
     }
-    
 }
+// MARK: - UICollection Delegates methods
+
 extension FWWeatherVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -248,16 +308,12 @@ extension FWWeatherVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return cell
         } else if indexPath.section == 1 {
             
-            
             guard  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FWHourlyWeatherCell.cellIdentifier, for: indexPath) as? FWHourlyWeatherCell else {fatalError()}
             
             let date = Date()
-            
-            // DateFormatter
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h, a"
             _ = dateFormatter.string(from: date)
-            
             
             let hourData = hoursDataWeather[indexPath.row]
             
@@ -273,13 +329,40 @@ extension FWWeatherVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
+// MARK: - Setting View delegate method
 extension FWWeatherVC : FWCustomSettingsViewDelegate {
     
     func getSettingsDataForWeather(with metricUnit: String) {
-        self.settingUnit = metricUnit
         defaults.set(metricUnit, forKey: "SettingsValue")
+        self.settingUnit = metricUnit
         reloadData()
-        getMyLocationWeather()
+        getLocationWeather(with: selectedLocation)
+    }
+    
+}
+
+// MARK: - Weather location delegate method
+extension FWWeatherVC: FWWeaterLocationDelegate {
+    
+    func getMyCurrentLocation(with location: String) {
+        print("my loc my loc ")
+        defaults.set(location, forKey: "SelectedLocation")
+        self.selectedLocation = location
+        getLocationWeather(with: selectedLocation)
+        print(myLocation)
+    }
+    
+}
+
+// MARK: - Search delegate
+
+extension FWWeatherVC:  FWSearchedLocationDelegate {
+    func getSelectedLocation(with city: String) {
+        print("SearchVC delegate is working !!!! ", city)
+        defaults.set(city, forKey: "SelectedLocation")
+        print(city)
+        self.selectedLocation = city
+        getLocationWeather(with: selectedLocation)
     }
     
 }

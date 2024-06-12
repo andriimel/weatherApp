@@ -16,7 +16,7 @@ class FWNetworkManager {
         
         let urlString =
         "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/\(location)?unitGroup=\(metric)&key=79SBXX7Z2R44HQQP5DP7ZEQUT&contentType=json"
-        
+        print(urlString)
         guard let url = URL(string: urlString) else {
             completed(.failure(FWErrorType.networkIssue))
             return
