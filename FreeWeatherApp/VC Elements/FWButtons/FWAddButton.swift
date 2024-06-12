@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FWSettingsButton: UIButton {
+class FWAddButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -16,5 +16,6 @@ class FWSettingsButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
 }

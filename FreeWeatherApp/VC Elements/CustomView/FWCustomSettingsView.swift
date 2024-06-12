@@ -93,7 +93,6 @@ extension FWCustomSettingsView: UITableViewDelegate, UITableViewDataSource {
                
                     settingsList[1].check = false
                     settingsList[2].check = false
-                    delegate?.getSettingsDataForWeather(with: "")
                     self.delegate?.getSettingsDataForWeather(with: "us")
                 }
                 else if indexPath.row == 1 {
@@ -104,13 +103,11 @@ extension FWCustomSettingsView: UITableViewDelegate, UITableViewDataSource {
                 } else if indexPath.row == 2{
                     settingsList[0].check = false
                     settingsList[1].check = false
-                    
                     delegate?.getSettingsDataForWeather(with: "uk")
                 }
 
         
         self.isHidden = true
-      //  tableView.reloadData()
 
         saveDate()
         

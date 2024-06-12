@@ -32,8 +32,6 @@ class FWSettingsVC: UIViewController {
     func configure() {
         view.addSubview(settingView)
         
-        
-        
         NSLayoutConstraint.activate([
             settingView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height/4),
             settingView.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),

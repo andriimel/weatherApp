@@ -7,6 +7,7 @@
 
 import UIKit
 
-class FWSettingsCustomCell: UITableCollectionViewCell {
+class FWSettingsCustomCell: UICollectionViewCell {
 
+    static let cellIdentifier = "FWSettingsCustomCell"
 }

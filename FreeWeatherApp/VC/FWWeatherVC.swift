@@ -12,13 +12,12 @@ import MapKit
 
 
 class FWWeatherVC: UIViewController {
-  
-   
+    
+    
     let defaults = UserDefaults.standard
-   
+    
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Settings.plist")
-  
-//          var metricUnit : String!
+    
     var collectionView: UICollectionView!
     
     var settingView = FWCustomSettingsView(frame: .zero)
@@ -29,25 +28,28 @@ class FWWeatherVC: UIViewController {
     var settingUnit = ""
     var settingsList :[FWSettingData] = []
     
-  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        settingUnit = defaults.string(forKey: "SettingsValue") ?? "metric"
-        settingView.delegate = self
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       
-        //print(defaults.string(forKey: "SettingsValue"))
+        
         reloadData()
         configureWeatherVC()
         configureCollectionView()
         configureSettingView()
         getMyLocationWeather()
-        
+        setMetricValue()
         print("Weather in: ",settingUnit)
     }
+    
+    func setMetricValue() {
+        settingUnit = defaults.string(forKey: "SettingsValue") ?? "metric"
+        settingView.delegate = self
+    }
+    
     func loadData() {
         
         if let data = try? Data(contentsOf: dataFilePath!) {
@@ -61,7 +63,6 @@ class FWWeatherVC: UIViewController {
     }
     
     func getMyLocationWeather() {
-
         
         loadData()
         
@@ -77,7 +78,7 @@ class FWWeatherVC: UIViewController {
                 if placemark.count>0{
                     
                     let placemark = placemarks[0]
-                    print(self.settingUnit)
+                    
                     FWNetworkManager().getApiData(with: placemark.subLocality!, with: self.settingUnit ) { [weak self] result in
                         guard let self = self else {return}
                         switch result {
@@ -98,7 +99,7 @@ class FWWeatherVC: UIViewController {
                 }
             }
         }
-       
+        
     }
     
     func getHoursData(day: Days) {
@@ -116,18 +117,14 @@ class FWWeatherVC: UIViewController {
     }
     
     @objc func settingsButtonTapped(){
-//       let destVC = FWSettingsVC()
-//       
-//        destVC.modalPresentationStyle = .fullScreen
-//        destVC.modalTransitionStyle = .crossDissolve
-//        present(destVC, animated: true)
+        
         settingView.isHidden = !settingView.isHidden
     }
     
     @objc func locationButtonTapped() {
         print("Location button tapped !!!! ")
-       reloadData()
-        
+
+        reloadData()
         getMyLocationWeather()
         
     }
@@ -137,7 +134,7 @@ class FWWeatherVC: UIViewController {
         days.removeAll()
         hoursDataWeather.removeAll()
         
-       // getMyLocationWeather()
+        // getMyLocationWeather()
     }
     func configureCollectionView() {
         let layout = UICollectionViewCompositionalLayout {sectionIndex, _ in
@@ -160,23 +157,21 @@ class FWWeatherVC: UIViewController {
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-        
-        // self.collectionView = collectionView
-        
+
     }
     
     func configureSettingView() {
         view.addSubview(settingView)
-          
-
+        
+        
         settingView.isHidden = true
-      
+        
         NSLayoutConstraint.activate([
             settingView.topAnchor.constraint(equalTo:  view.topAnchor, constant: 100),
             settingView.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),
             settingView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             settingView.heightAnchor.constraint(equalToConstant: 180)
-        
+            
         ])
     }
     
@@ -201,7 +196,6 @@ class FWWeatherVC: UIViewController {
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .fractionalHeight(1.0)
             ))
-            
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: .init(widthDimension: .fractionalWidth(0.25),
@@ -262,7 +256,7 @@ extension FWWeatherVC: UICollectionViewDelegate, UICollectionViewDataSource {
             // DateFormatter
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h, a"
-            let currentTime = dateFormatter.string(from: date)
+            _ = dateFormatter.string(from: date)
             
             
             let hourData = hoursDataWeather[indexPath.row]
@@ -279,15 +273,13 @@ extension FWWeatherVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-    
 extension FWWeatherVC : FWCustomSettingsViewDelegate {
-  
+    
     func getSettingsDataForWeather(with metricUnit: String) {
         self.settingUnit = metricUnit
         defaults.set(metricUnit, forKey: "SettingsValue")
         reloadData()
         getMyLocationWeather()
-      //  collectionView.reloadData()
     }
     
 }

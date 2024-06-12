@@ -26,6 +26,7 @@
 		5966BD1C2BE3162B0013E75B /* FWCustomSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD1B2BE3162B0013E75B /* FWCustomSettingsView.swift */; };
 		5966BD1E2BE3D7140013E75B /* FWSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD1D2BE3D7140013E75B /* FWSettingsCell.swift */; };
 		5966BD202BE457A20013E75B /* FWSettingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD1F2BE457A20013E75B /* FWSettingData.swift */; };
+		5966BD222BEDA6340013E75B /* FWSettingsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5966BD212BEDA6340013E75B /* FWSettingsCustomCell.swift */; };
 		59E36D542BD811CD0026AFCE /* FWCurrentWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E36D532BD811CD0026AFCE /* FWCurrentWeatherCell.swift */; };
 		59E36D572BD85F490026AFCE /* FWWeatherImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E36D562BD85F480026AFCE /* FWWeatherImageView.swift */; };
 		59E36D5A2BD864820026AFCE /* FWTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59E36D592BD864820026AFCE /* FWTabBarController.swift */; };
@@ -58,6 +59,7 @@
 		5966BD1B2BE3162B0013E75B /* FWCustomSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWCustomSettingsView.swift; sourceTree = "<group>"; };
 		5966BD1D2BE3D7140013E75B /* FWSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSettingsCell.swift; sourceTree = "<group>"; };
 		5966BD1F2BE457A20013E75B /* FWSettingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSettingData.swift; sourceTree = "<group>"; };
+		5966BD212BEDA6340013E75B /* FWSettingsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSettingsCustomCell.swift; sourceTree = "<group>"; };
 		59E36D532BD811CD0026AFCE /* FWCurrentWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWCurrentWeatherCell.swift; sourceTree = "<group>"; };
 		59E36D562BD85F480026AFCE /* FWWeatherImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWWeatherImageView.swift; sourceTree = "<group>"; };
 		59E36D592BD864820026AFCE /* FWTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWTabBarController.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				59E36D5D2BD952180026AFCE /* FWHourlyWeatherCell.swift */,
 				59E36D5F2BD9524F0026AFCE /* FWDailyWeatherCell.swift */,
 				5966BD1D2BE3D7140013E75B /* FWSettingsCell.swift */,
+				5966BD212BEDA6340013E75B /* FWSettingsCustomCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5966BD222BEDA6340013E75B /* FWSettingsCustomCell.swift in Sources */,
 				595EB2332BD70B1900486583 /* FWNetworkManager.swift in Sources */,
 				5966BD1C2BE3162B0013E75B /* FWCustomSettingsView.swift in Sources */,
 				595EB22D2BD70B1900486583 /* FWWeatherVC.swift in Sources */,
