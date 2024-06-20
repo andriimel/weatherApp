@@ -15,10 +15,10 @@ protocol FWSearchedLocationDelegate : AnyObject {
 }
 
 private enum Section : CaseIterable {
-    case cities
+    case main
 }
 
-class FWSearchVC: UIViewController {
+class FWSearchVC: UIViewController, UISearchControllerDelegate {
    
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -32,7 +32,8 @@ class FWSearchVC: UIViewController {
     var selectedLocation = MKLocalSearchCompletion()
     let searchController = UISearchController()
     var searchBar: UISearchBar!
-    
+    private var dataSource: UICollectionViewDiffableDataSource<Section, SelectedCities>!
+
     var searchTableView: UITableView!
     
     var searchCompleter = MKLocalSearchCompleter()
@@ -44,25 +45,39 @@ class FWSearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     
-        navigationItem.title = "Search"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        loadDataFromDB()
-//        configureCollectionView()
-
-        loadData()
-        reloadSearchingData()
-        configureSearchController()
-     
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+      
         
         configureCollectionView()
+        
+        loadDataFromDB()
+        
+        loadMetricSettingsData()
+        
+        configureSearchController()
+       // configureTabBarButtons()
     }
     
-    func loadData() {
+    func configureTabBarButtons() {
+        
+      
+        
+    }
+    @objc func searchButtonTapped() {
+        print("Search button tapped !!!! ")
+        configureSearchController()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNavigationBar()
+       
+    }
+    func setNavigationBar() {
+        navigationItem.title = "Search"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .automatic
+    }
+    
+    func loadMetricSettingsData() {
         if let data = try? Data(contentsOf: dataFilePath!) {
             let decoder = PropertyListDecoder()
             do {
@@ -75,43 +90,27 @@ class FWSearchVC: UIViewController {
     }
     
 
-    func reloadSearchingData() {
-        
-        if searchTableView != nil {
-        
-            searchController.searchBar.text = ""
-            searchResults.removeAll()
-            searchTableView.reloadData()
-            searchView.isHidden = true
-            collectionView.isHidden = false
-            searchController.isActive = false
-            
-        } else {
-            
-            searchController.isActive = true
-        }
-    }
     func setData() {
         delegate?.getSelectedLocation(with: defaults.string(forKey: "SelectedLocation") ?? "")
     }
     
-    func configureTableView() {
+    func configureSearchTableView() {
 
-        searchTableView = UITableView(frame: CGRect(x: 0, y: 0 , width: searchView.frame.width, height: searchView.frame.height))
+        searchTableView = UITableView(frame: CGRect(x: searchView.frame.minX, y:searchView.frame.minY , width: searchView.frame.width, height: searchView.frame.height))
         searchTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         searchTableView.dataSource = self
         searchTableView.delegate = self
         searchTableView.backgroundColor = .red
-        
        
     }
     
     func configureSearchView() {
        
-        configureTableView()
+        configureSearchTableView()
         self.view.addSubview(searchView)
         searchView.isHidden = false
         searchView.addSubview(searchTableView)
+       
         NSLayoutConstraint.activate([
             searchView.topAnchor.constraint(equalTo: self.view.topAnchor),
             searchView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
@@ -123,11 +122,14 @@ class FWSearchVC: UIViewController {
       
         searchCompleter.delegate = self
 
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Search..."
+        searchController.delegate = self
         searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+//        navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
+      
     }
 }
 
@@ -141,11 +143,20 @@ extension FWSearchVC: FWWeatherDelegate {
         newCity.city = selectedLocation.resolvedAddress
         newCity.descript = selectedLocation.description
             // temperature ??? 
+//        if settingsList[0].check == true {
+//            print("US metric system !!!!")
+//            newCity.currentTemp = selectedLocation.currentConditions.temp
+//        } else if settingsList[1].check == true {
+//            print("EU metric system !!!!")
+//            newCity.currentTemp =  ((selectedLocation.currentConditions.temp + 32)*5)/9
+//        } else {
+//            print("UK metric system !!!!")
+//            newCity.currentTemp =  ((selectedLocation.currentConditions.temp + 32)*5)/9
+//        }
         newCity.currentTemp = selectedLocation.currentConditions.temp
     
         self.city.append(newCity)
         saveDataToDB()
-
 
     }
     
@@ -162,15 +173,12 @@ extension FWSearchVC: FWWeatherDelegate {
     
     func loadDataFromDB(){
         let request : NSFetchRequest<SelectedCities> = SelectedCities.fetchRequest()
-        
         do {
           city =  try context.fetch(request)
         } catch {
             print ("Error loading category\(error)")
         }
-        
     }
-    
 }
 
 extension FWSearchVC: UISearchBarDelegate, UISearchResultsUpdating{
@@ -181,7 +189,7 @@ extension FWSearchVC: UISearchBarDelegate, UISearchResultsUpdating{
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchController.searchBar.text = ""
         searchResults.removeAll()
-        searchTableView.reloadData()
+        
         searchView.isHidden = true
         collectionView.isHidden = false
         print("Cancel tapped !!!! ")
@@ -189,6 +197,7 @@ extension FWSearchVC: UISearchBarDelegate, UISearchResultsUpdating{
     
     func updateSearchResults(for searchController: UISearchController) {
         searchCompleter.queryFragment = searchController.searchBar.text!
+//        configureSearchView()
         print("update search is starting!!!")
     }
 }
@@ -210,7 +219,6 @@ extension FWSearchVC: MKLocalSearchCompleterDelegate {
         }
         searchTableView.reloadData()
     }
-
 }
 
 extension FWSearchVC: UITableViewDataSource, UITableViewDelegate{
@@ -247,81 +255,46 @@ extension FWSearchVC: UITableViewDataSource, UITableViewDelegate{
            
             let destVC = FWWeatherVC()
           
-            if !self.city.isEmpty {
-             
-                guard  let myCity = self.city[indexPath.row].city  else {
-                        return
-                    }
-                print ("Yes it is !!!!!\(name) ", myCity.before(first: ","))
-
-                    if myCity.before(first: ",").contains(name){
-                        print ("Yes it is !!!!!\(name) ", myCity.before(first: ","))
-                        print(name, "Theay are similar")
-                        destVC.addButton.isHidden = true
-                    } else if  myCity.before(first: ",") != name {
-                        print("They are nor similar !!!!!!! ")
-                        destVC.addButton.isHidden = false
-                    
-                }
-                
-            }
-         //   destVC.addButton.isHidden = false
+//            if !self.city.isEmpty {
+//             
+//                guard  let myCity = self.city[indexPath.row].city  else {
+//                        return
+//                    }
+//                print ("Yes it is !!!!!\(name) ", myCity.before(first: ","))
+//
+//                    if myCity.before(first: ",").contains(name){
+//                        print ("Yes it is !!!!!\(name) ", myCity.before(first: ","))
+//                        print(name, "Theay are similar")
+//                        destVC.addButton.isHidden = true
+//                    } else if  myCity.before(first: ",") != name {
+//                        print("They are nor similar !!!!!!! ")
+//                        destVC.addButton.isHidden = false
+//                    
+//                }
+//                
+//            }
+            destVC.addButton.isHidden = false
             self.present(destVC, animated: true)
         }
     }
-    // MARK: - Collection View Methods
-
 }
-extension String {
-    func before(first delimiter: Character) -> String {
-        if let index = firstIndex(of: delimiter) {
-            let before = prefix(upTo: index)
-            return String(before)
-        }
-        return ""
-    }
-    
 
-}
-extension FWSearchVC: UICollectionViewDelegate, UICollectionViewDataSource{
+// MARK: - Collection View Methods
 
-  
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return city.count
-    }
-    func collectionView(_ collectionView: UICollectionView, canEditItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FWSearchingCell.cellIdentifier, for: indexPath) as? FWSearchingCell else {fatalError()}
-        let addedCity = city[indexPath.row]
-        cell.setWeather(forLocation: addedCity)
-        
-        
-        return cell
-    }
-
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-  
-        print("Hello !!!!!!! ", indexPath.row)
-        
-    }
+extension FWSearchVC: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
 
     
     func configureCollectionView() {
-        
-//      
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout())
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+     
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.bounces = true
+        
         collectionView.register(FWSearchingCell.self, forCellWithReuseIdentifier: FWSearchingCell.cellIdentifier)
         view.addSubview(collectionView)
-//        
-        
    
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -329,8 +302,7 @@ extension FWSearchVC: UICollectionViewDelegate, UICollectionViewDataSource{
             collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
-    }
-  
+}
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         
@@ -352,4 +324,33 @@ extension FWSearchVC: UICollectionViewDelegate, UICollectionViewDataSource{
         return UICollectionViewCompositionalLayout(section: section)
     }
     
+  
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(city.count)
+        return city.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FWSearchingCell.cellIdentifier, for: indexPath) as? FWSearchingCell else {fatalError()}
+        let addedCity = city[indexPath.row]
+        cell.setWeather(forLocation: addedCity)
+        
+        return cell
+    }
+
+     func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+        print("swipe was started !!! ")
+
+         let delCity = city[indexPath.row]
+         city.remove(at: indexPath.row)
+         context.delete(delCity)
+         saveDataToDB()
+         collectionView.reloadData()
+
+     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+     
+    }
+
 }

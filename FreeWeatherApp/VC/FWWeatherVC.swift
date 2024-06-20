@@ -43,7 +43,8 @@ class FWWeatherVC: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.backgroundColor = .red
+        view.backgroundColor = .red
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +55,6 @@ class FWWeatherVC: UIViewController, UINavigationControllerDelegate {
         print("location detected ? - ", isLocationDetected)
         
         if !isLocationDetected {
-           
             getMyCurrentLocation()
             isLocationDetected = true
             defaults.set(true, forKey: FWKeys.isLocationDetected)
@@ -64,7 +64,7 @@ class FWWeatherVC: UIViewController, UINavigationControllerDelegate {
         }
             
             configureTabBarButtons()
-            configureCollectionView()
+           configureCollectionView()
             configureSettingView()
             configureAddButton()
             reloadData()
@@ -216,6 +216,7 @@ class FWWeatherVC: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func addButtonTapped() {
+      
         print("add button tapped !!!! ")
         let searchVC = FWSearchVC()
         self.delegate = searchVC

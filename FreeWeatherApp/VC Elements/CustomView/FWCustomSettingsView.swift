@@ -43,8 +43,11 @@ class FWCustomSettingsView: UIView {
     }
    
     func configureTableView() {
-        loadData()
+        
+        loadMetricData()
+        
         addSubview(tableView)
+        
         tableView.register(FWSettingsCell.self , forCellReuseIdentifier: FWSettingsCell.cellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.frame             = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
@@ -126,7 +129,7 @@ extension FWCustomSettingsView: UITableViewDelegate, UITableViewDataSource {
     
     
     /* load data from plist file */
-    func loadData() {
+    func loadMetricData() {
         
         if let data = try? Data(contentsOf: dataFilePath!) {
             let decoder = PropertyListDecoder()

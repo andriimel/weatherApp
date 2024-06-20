@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5906B3042C1E2595008CC451 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5906B3032C1E2595008CC451 /* Extensions.swift */; };
 		595DAE1C2C028FC900C84F83 /* FWSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595DAE1B2C028FC900C84F83 /* FWSearchView.swift */; };
 		595EB2032BD70A8000486583 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2022BD70A8000486583 /* AppDelegate.swift */; };
 		595EB2052BD70A8000486583 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595EB2042BD70A8000486583 /* SceneDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5906B3032C1E2595008CC451 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		595DAE1B2C028FC900C84F83 /* FWSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FWSearchView.swift; sourceTree = "<group>"; };
 		595EB1FF2BD70A8000486583 /* FreeWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FreeWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		595EB2022BD70A8000486583 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				595EB21B2BD70B1900486583 /* FWErrorType.swift */,
 				5966BD252BF3A5D90013E75B /* Constants.swift */,
+				5906B3032C1E2595008CC451 /* Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				595EB2342BD70B1900486583 /* WeatherData.swift in Sources */,
 				5966BD202BE457A20013E75B /* FWSettingData.swift in Sources */,
 				5966BD262BF3A5D90013E75B /* Constants.swift in Sources */,
+				5906B3042C1E2595008CC451 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
